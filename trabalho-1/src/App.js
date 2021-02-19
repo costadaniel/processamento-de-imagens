@@ -1,25 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
 
-function App() {
+const App = () => {
+  const [image, setImage] = useState(null);
+
+  const handleGetInfo = () => {
+    let file = document.getElementById("file-upload").files[0];
+    let canvas = document.getElementById("canvas");
+    let ctx = canvas.getContext("2d");
+
+    if (file) {
+      let url = URL.createObjectURL(file);
+      let img = new Image();
+
+      img.src = url;
+      img.onload = () => {
+        canvas.height = img.height;
+        canvas.width = img.width;
+
+        ctx.drawImage(img, 0, 0);
+        URL.revokeObjectURL(url);
+      };
+
+      setImage(ctx.getImageData(0, 0, img.width, img.height));
+    }
+    console.log(image.width);
+  };
+
+  useEffect(() => {}, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Editor de Imagens</h1>
+      <input
+        type="file"
+        id="file-upload"
+        name="file-upload"
+        accept="image/png, image/jpeg"
+      />
+      <button type="button" onClick={() => handleGetInfo()}>
+        Get Info!
+      </button>
+      <canvas id="canvas"></canvas>
     </div>
   );
-}
+};
 
 export default App;
