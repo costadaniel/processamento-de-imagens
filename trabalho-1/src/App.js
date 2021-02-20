@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import TopBar from "./components/TopBar";
 
 const App = () => {
   const [image, setImage] = useState(null);
@@ -29,7 +30,14 @@ const App = () => {
   useEffect(() => {}, []);
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100vh",
+      }}
+    >
+      <TopBar />
       <h1>Editor de Imagens</h1>
       <input
         type="file"
@@ -37,7 +45,7 @@ const App = () => {
         name="file-upload"
         accept="image/png, image/jpeg"
       />
-      <button type="button" onClick={() => handleGetInfo()}>
+      <button type="button" onClick={() => {}}>
         Get Info!
       </button>
       <canvas id="canvas"></canvas>
